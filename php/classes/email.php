@@ -95,5 +95,40 @@ public function  __construct(int $newEmailId = null, $newEmailTimeSent = null, s
 		$this->emailId = $newEmailId;
 	}
 
+	/**
+	 * accessor method for email time sent
+	 *
+	 * @return \DateTime value of email time sent
+	 */
+	public function getEmailTimeSent() {
+		return ($this-> emailTimeSent);
+	}
+
+	/**
+	 * mutator method for email time sent
+	 *
+	 * @param \DateTime|string|null $newEmailTimeSent email date as a DateTime object or string (or null to load the current time)
+	 * @throws \InvalidArgumentException if $newEmailTimeSent is not a valid object or string
+	 * @throws \RangeException if $newEmailTimeSent is a date that does not exist
+	 */
+	public function setEmailTimeSent($newEmailTimeSent = null) {
+		// base case: if the date is null, use the current date and time
+		if($newEmailTimeSent === null) {
+			$this->emailTimeSent = new \DateTime();
+			return;
+		}
+		//store the email created date
+		try {
+			$newEmailTimeSent = self::validateDateTime($newEmailTimeSent);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw(new \InvalidArgumentException($invalidArgument-> getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			throw(new \RangeException($range-> getMessage(), 0, $range));
+		}
+		$this->emailTimeSent = $newEmailTimeSent;
+	}
+
+
+
 }
 
