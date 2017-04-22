@@ -128,6 +128,37 @@ public function  __construct(int $newEmailId = null, $newEmailTimeSent = null, s
 		$this->emailTimeSent = $newEmailTimeSent;
 	}
 
+/**
+ * accessor for emailAddresSent
+ *
+ * @return string value of email address sent
+ */
+public function getEmailAddressSent() {
+	return ($this->emailAddressSent);
+}
+
+/*
+ * mutator method for Email Address Sent
+ *
+ * @param string $newEmailAddressSent new value of email address
+ * @throws \InvalidArgumentException if $newEmailAddressSent is not a string or insecure
+ * @throws \RangeException if $newEmailAddressSent is > 50 char
+ * @throws \TypeError if $newEmailAddressSent is not a string
+ */
+public function setEmailAddressSent(string $newEmailAddressSent) {
+	//verify the email address is secure
+	$newEmailAddressSent = trim($newEmailAddressSent);
+	$newEmailAddressSent = filter_var($newEmailAddressSent, FILTER_SANITIZE_EMAIL, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($newEmailAddressSent) === true) {
+		throw(new \RangeException("too many characters"));
+	}
+	//verify the post content will fit in the database
+	if(strlen($newEmailAddressSent) > 50) {
+		throw(new \RangeException("too many characters"));
+	}
+	//store the email address
+	$this->emailAddressSent = $newEmailAddressSent;
+}
 
 
 }
