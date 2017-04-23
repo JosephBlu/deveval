@@ -3,6 +3,8 @@ namespace deveval\home\deveval;
 
 require_once("autoload.php");
 
+use Edu\Cnm\GigHub\ValidateDate;
+
 /**
  * Email class
  *

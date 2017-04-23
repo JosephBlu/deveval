@@ -33,7 +33,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase {
 	protected $VALID_EMAILADDRESSSENT = "Email sent";
 
 //	/**
-//	 * the id f the email sent
+//	 * the id for the email sent
 //	 * @var emailId
 //	 */
 //	protected $email = null;
@@ -42,8 +42,8 @@ class EmailTest extends \PHPUnit_Framework_TestCase {
 	 * create dependent objects before running each test
 	 */
 
-	//calculate the date (just use the time unit test was setup)
-	$this->VALID_EMAILTIMESENT = new\DateTime;
+//	//calculate the date (just use the time unit test was setup)
+//	$this->VALID_EMAILTIMESENT = new\DateTime;
 
 	/**
 	 * test inserting a valid email and verify the actual mySQl data matches
