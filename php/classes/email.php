@@ -12,6 +12,7 @@ require_once("autoload.php");
  *
  */
 class Email {
+	use ValidateDate;
 
 	/**
 	 * id for this email; this is the primary key

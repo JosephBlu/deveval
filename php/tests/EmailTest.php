@@ -8,7 +8,7 @@
 
 namespace deveval\home\deveval;
 
-use Deveval\Home\deveval\Email;
+
 /**
  * Full PHPUnit test for the Email class
  *
@@ -32,18 +32,36 @@ class EmailTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $VALID_EMAILADDRESSSENT = "Email sent";
 
-	/**
-	 * the id f the email sent
-	 * @var emailId
-	 */
-	protected $email = null;
+//	/**
+//	 * the id f the email sent
+//	 * @var emailId
+//	 */
+//	protected $email = null;
 
 	/**
 	 * create dependent objects before running each test
 	 */
 
-	//create and insert the email info that was sent
-	$this->email = new Email(null, "valid@gmail.com");
+	//calculate the date (just use the time unit test was setup)
+	$this->VALID_EMAILTIMESENT = new\DateTime;
+
+	/**
+	 * test inserting a valid email and verify the actual mySQl data matches
+	 */
+public function testInsertValidEmail(){
+	//count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("email");
+
+	//create a new email and insert it into mySQL
+	$email = new Email(null, $this->VALID_EMAILTIMESENT, $this->VALID_EMAILADDRESSSENT );
+	$email->insert($this->getPDO());
+
+	// grab the data from mySQL and enforce the fields match our expectations
+	$pdoEmail = Email::getEmailbyEmailId($this->getPDO(), $email->getEmailId());
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("email"));
+	$this->assertEquals($pdoEmail->getEmailTimeSent(), $this->VALID_EMAILTIMESENT);
+	$this->assertEquals($pdoEmail->getEmailAddressSent(), $this->VALID_EMAILADDRESSSENT);
+}
 
 
 }
