@@ -160,6 +160,33 @@ public function setEmailAddressSent(string $newEmailAddressSent) {
 	$this->emailAddressSent = $newEmailAddressSent;
 }
 
+/**
+ * inserts emails into mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not PDO connection object
+ */
+public function insert(\PDO $pdo) {
+	//enforce the emailId is null (i.e., dont insert an email that already exists)
+	if($this->emailId !== null) {
+		throw(new \PDOException("This email already exists"));
+	}
+
+	//create query template
+	$query = "INSERT INTO email(emailId, emailTimeSent, emailAddressSent) VALUES (:emailId, :emailTimeSent, :emailAddressSent)";
+	$statement= $pdo->prepare($query);
+
+	//bind the member variables to the place holders in the template
+	$formattedDate = $this->emailTimeSent->format("Y-m-d H:i:s");
+	$parameters = ["emailId"=> $this->emailId, "emailTimeSent"=> $formattedDate, "emailAddressSent"=> $this->emailAddressSent];
+	$statement->execute($parameters);
+
+	//update the null emailId with mysql just inserted
+	$this->emailId = intval($pdo->LastInsertId());
+}
+
+
 
 }
 
