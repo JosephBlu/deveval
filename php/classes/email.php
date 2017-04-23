@@ -1,4 +1,5 @@
 <?php
+namespace deveval\home\deveval;
 
 require_once("autoload.php");
 
@@ -185,8 +186,6 @@ public function insert(\PDO $pdo) {
 	//update the null emailId with mysql just inserted
 	$this->emailId = intval($pdo->LastInsertId());
 }
-
-
 
 }
 
